@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "398637075582",
+    "project_id": "almatrack-8e1b4",
+    "storage_bucket": "almatrack-8e1b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398637075582:android:e672ecc4edc7da4657dc2f",
+        "android_client_info": {
+          "package_name": "com.solucionesmejia.almatrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdAn_V1FVSfdKn17i3ay_g2ranl-ZTiO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

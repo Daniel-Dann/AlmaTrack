@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AlmaTrack</string>
+
+    //Login
+    <string name="company_name">ALMATRACK</string>
+    <string name="etEmail">Ingrese Correo Electronico</string>
+    <string name="etPassword">Ingrese Contraseña</string>
+    <string name="btGetInto">INICIAR SESIÓN</string>
+    <string name="tvForgetPassword">¿Olvidaste tu contraseña?</string>
+    <string name="IVcontentDescription">Logo de ALMATRACK</string>
+</resources>

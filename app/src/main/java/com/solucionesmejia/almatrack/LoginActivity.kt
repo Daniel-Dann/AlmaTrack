@@ -37,35 +37,75 @@ class LoginActivity : AppCompatActivity() {
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
 
-            //Revisamos que los campos no estén vacíos.
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-
-                //Aquí le decimos a Firebase:
-                //👮 “Verifica si este correo y contraseña existen y son correctos”.
-                auth.signInWithEmailAndPassword(email, password)
-
-                    //Cuando Firebase termina de revisar, nos responde.
-                    //Si el task fue exitoso (es decir, sí existe ese usuario y la contraseña es correcta):
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-
-                            //Mandamos al usuario a la pantalla MainActivity, como quien dice:
-                            //🚪 “¡Bienvenido! Puedes entrar a la app”.
-                            //finish() cierra
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            //Si Firebase responde con un error (por ejemplo, mal correo o contraseña), mostramos un mensaje emergente (un “toast”).
-                            Toast.makeText(
-                                this, "¡Ups! Parece que tu [Conrreo/Contraseña] son Incorrectas", Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-            } else {
-                //Si los campos estaban vacíos, mostramos un mensaje para que el usuario sepa que falta algo.
-                Toast.makeText(this, "¡Ups! Parece que olvidaste ingresar tu [Conrreo/Contraseña]", Toast.LENGTH_SHORT).show()
+            //“👮Verifica que el correo y contraseña no esté vacía"
+            if (email.isEmpty() && password.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "¡Ups! Parece que olvidaste ingresar tu [Correo y Contraseña]",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
             }
+
+            //“👮Verifica que el campo de email no esté vacío"
+            if (email.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "¡Ups! Parece que olvidaste ingresar tu [Correo]",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            //“👮Verifica que la contraseña no esté vacía"
+            if (password.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "¡Ups! Parece que olvidaste ingresar tu [Contraseña]",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            //“👮Verifica que tenga al menos 6 caracteres (Firebase lo exige)"
+            if (password.length < 6) {
+                Toast.makeText(
+                    this,
+                    "¡Ups! La contraseña debe tener al menos 6 caracteres",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            //“👮Verifica que el correo tenga formato correcto (contiene @ y .)"
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "¡Ups! Parece que el [Correo] no es valido", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
+
+            //Aquí le decimos a Firebase:
+            //“👮Verifica si todo está bien, intentamos iniciar sesión”.
+            auth.signInWithEmailAndPassword(email, password)
+
+                //Si el task fue exitoso nos permitira el inicio de sesio:
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+
+                        //Mandamos al usuario a la pantalla MainActivity, como quien dice:
+                        // 🚪 “¡Bienvenido! Puedes entrar a la app”.
+                        //finish() cierra
+                        Toast.makeText(this, "!Sesion Exitosa¡", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    } else {
+                        //Mensaje de error de cualquier error que pueda tener firebase
+                        Toast.makeText(
+                            this,
+                            "[Correo o Contraeña] incorrectas",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
         }
     }
 

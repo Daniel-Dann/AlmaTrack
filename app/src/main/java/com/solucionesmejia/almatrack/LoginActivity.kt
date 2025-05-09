@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
@@ -26,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         val etEmail = findViewById<EditText>(R.id.etEmail)
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val btGetInto = findViewById<Button>(R.id.btGetInto)
+        val tvRecoverPaswword = findViewById<TextView>(R.id.tvRecoverPaswword)
 
         //Le decimos al botón:
         // 🔘 “Cuando alguien te presione, haz esto…”
@@ -107,11 +109,18 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
         }
+
+        tvRecoverPaswword.setOnClickListener{
+            val i = Intent(this, RecoverPasswordActivity::class.java)
+            startActivity(i)
+        }
+
+
     }
 
-    //Verifica si el usuario ya está autenticado (sesión iniciada antes).
+    /*//Verifica si el usuario ya está autenticado (sesión iniciada antes).
     //Si es así, lo mandamos directo a MainActivity, sin pedirle login otra vez.
-    /*override fun onStart(){
+    override fun onStart(){
         super.onStart()
         val currentUser = auth.currentUser
         if (currentUser != null){

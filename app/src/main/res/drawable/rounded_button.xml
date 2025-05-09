@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <solid android:color="@color/mint_button_getinto"/> <!-- Cambia al color que desees -->
+        <corners android:radius="2dp"/> <!-- Ajusta el valor de radio para hacer más o menos redondeado -->
+    </shape>

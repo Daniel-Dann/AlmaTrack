@@ -8,4 +8,11 @@
     <string name="btGetInto">INICIAR SESIÓN</string>
     <string name="tvForgetPassword">¿Olvidaste tu contraseña?</string>
     <string name="IVcontentDescription">Logo de ALMATRACK</string>
+
+
+    //Recover Password
+    <string name="tv_title_recover_password">¡Has Olvidado tu Contraseña!</string>
+    <string name="tv_information_recover_password">Te enviaremos un correo electrónico con un código para restablecer tu contraseña.</string>
+    <string name="tv_information_recover_password2">Introduce a continuación el correo alectrónico asociado a tu cuenta.</string>
+    <string name="bt_send_code_email">ENVIAR CODIGO</string>
 </resources>

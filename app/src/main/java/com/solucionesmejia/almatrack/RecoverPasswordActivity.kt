@@ -3,9 +3,13 @@ package com.solucionesmejia.almatrack
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -34,27 +38,31 @@ class RecoverPasswordActivity : AppCompatActivity() {
         btGetInto.setOnClickListener {
             val email = etEmail.text.toString().trim()
 
-
-            //Si el usuario no escribió su correo, mostramos un mensaje de error y paramos la función.
+            // ✅ Validación 1: Campo vacío
             if (email.isEmpty()) {
                 Toast.makeText(this, "Por favor ingresa tu correo", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            //Revisamos que lo que escribió sí tenga forma de correo electrónico válido, usando una herramienta de Android (Patterns.EMAIL_ADDRESS).
+            // ✅ Validación 2: Formato incorrecto
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 Toast.makeText(this, "Correo inválido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            // ✅ Solo si pasa las validaciones, mostramos la animación
+            val loadingDialog = showLoadingDialog()
+
             // Enviamos el correo de recuperación
             auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener { task ->
+                    loadingDialog.dismiss() // Cerramos el diálogo de carga
                     if (task.isSuccessful) {
                         //Mostramos un dialogo de confirmación en un recuadro en ves del Toast
                         AlertDialog.Builder(this)
                             .setTitle("¡Correo enviado!\"")
                             .setMessage("Te hemos enviado un correo para restablecer tu contraseña. Revisa tu bandeja de entrada o tu carpeta de spam.")
+                            .setIcon(R.drawable.vector_email)
                             .setPositiveButton("Entendido") { dialog, _ ->
                                 dialog.dismiss()
                                 finish() // Cerrar esta pantalla y volver al login
@@ -68,5 +76,39 @@ class RecoverPasswordActivity : AppCompatActivity() {
             val i = Intent(this, LoginActivity::class.java)
             startActivity(i)
         }
+    }
+
+    //Fución que permite mandar una ventana de carga de que se esta enviado el correo
+    private fun showLoadingDialog(): AlertDialog {
+        // LinearLayout Agrupa el círculo y el texto uno debajo del otro.
+        val layout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
+            setPadding(50, 50, 50, 50)
+        }
+
+        //ProgressBar El círculo animado de carga.
+        val progressBar = ProgressBar(this).apply {
+            isIndeterminate = true
+        }
+
+        ////TextView Muestra el texto “Enviando correo…”.
+        val message = TextView(this).apply { // TextView
+            text = "Enviando correo..."
+            textSize = 16f
+            setPadding(0, 20, 0, 0)
+            gravity = Gravity.CENTER
+        }
+
+        layout.addView(progressBar)
+        layout.addView(message)
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(layout)
+            .setCancelable(false) // .setCancelable(false) El usuario no puede cerrar el diálogo mientras se está enviando.
+            .create()
+
+        dialog.show()
+        return dialog
     }
 }

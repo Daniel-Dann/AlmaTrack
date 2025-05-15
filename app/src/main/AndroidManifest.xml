@@ -20,7 +20,11 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="false"/>
+        <activity
+            android:name=".splashscreen.SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AlmaTrack.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

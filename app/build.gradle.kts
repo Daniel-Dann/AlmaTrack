@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.solucionesmejia.almatrack"
-        minSdk = 22
+        minSdk = 23
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -51,6 +51,9 @@ android {
         // Firebase
         implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
         implementation("com.google.firebase:firebase-firestore-ktx:24.11.1")
+
+        //API SplashScreen
+        implementation("androidx.core:core-splashscreen:1.0.1")
 
 
 

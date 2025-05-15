@@ -14,7 +14,16 @@
         <item name="colorControlHighlight">@color/blue</item> <!-- Efecto de ripple -->
     </style>
 
-
-
     <style name="Theme.AlmaTrack" parent="Base.Theme.AlmaTrack" />
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.AlmaTrack.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/white</item> <!-- Fondo negro -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_almatrack</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>

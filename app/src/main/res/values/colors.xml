@@ -7,6 +7,8 @@
     <color name="blue">#305895</color>
     <color name="strong_blue">#E20004FF</color>
     <color name="red">#E2D60101</color>
+    <color name="green">#39F47E</color>
+    <color name="orange">#FF9B1F</color>
 
     <color name="blue_500">#2196F3</color> <!-- Azul Material Design -->
     <color name="blue_200">#90CAF9</color> <!-- Versión más clara -->

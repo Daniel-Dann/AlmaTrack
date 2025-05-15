@@ -15,4 +15,7 @@
     <string name="tv_information_recover_password">Te enviaremos un correo electrónico con un código para restablecer tu contraseña.</string>
     <string name="tv_information_recover_password2">Introduce a continuación el correo alectrónico asociado a tu cuenta.</string>
     <string name="bt_send_code_email">ENVIAR CODIGO</string>
+
+    //Main
+    <string name="tv_product_inventory">INVENTARIO</string>
 </resources>

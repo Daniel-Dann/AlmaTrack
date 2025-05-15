@@ -4,39 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="24dp"
     tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
+        android:layout_width="326dp"
+        android:layout_height="270dp"
         android:layout_gravity="center"
         android:contentDescription="@string/IVcontentDescription"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.029999971"
-        app:srcCompat="@drawable/almatrak_logo" />
-
-    <TextView
-        android:id="@+id/tvNameCompany"
-        android:layout_width="match_parent"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/sanporter"
-        android:gravity="center"
-        android:text="@string/company_name"
-        android:textColor="@color/blue"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.36" />
+        app:layout_constraintVertical_bias="0.060000002"
+        app:srcCompat="@drawable/logo_almatrack" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout1"
@@ -50,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNameCompany"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
         app:layout_constraintVertical_bias="0.050000012">
 
         <EditText
@@ -96,7 +80,7 @@
         android:id="@+id/btGetInto"
         android:layout_width="320dp"
         android:layout_height="59dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/orange"
         android:text="@string/btGetInto"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"

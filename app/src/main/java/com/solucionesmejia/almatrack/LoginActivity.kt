@@ -96,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
                         //Mandamos al usuario a la pantalla MainActivity, como quien dice:
                         // 🚪 “¡Bienvenido! Puedes entrar a la app”.
                         //finish() cierra
-                        Toast.makeText(this, "!Sesion Exitosa¡", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "¡Inicio de Sesion Exitosa!", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else {
@@ -118,7 +118,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    /*//Verifica si el usuario ya está autenticado (sesión iniciada antes).
+    //Verifica si el usuario ya está autenticado (sesión iniciada antes).
     //Si es así, lo mandamos directo a MainActivity, sin pedirle login otra vez.
     override fun onStart(){
         super.onStart()
@@ -127,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-    }*/
+    }
 }
 
 

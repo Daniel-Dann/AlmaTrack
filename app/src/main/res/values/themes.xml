@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.AlmaTrack" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Color de la status bar -->
-        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:statusBarColor">@color/orange</item>
 
         <!-- Color primario y de acento -->
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/orange</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/blue</item>
 
@@ -18,7 +18,7 @@
 
     <!-- Splash Screen Theme -->
     <style name="Theme.AlmaTrack.Splash" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/white</item> <!-- Fondo negro -->
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo_almatrack</item>
         <item name="android:navigationBarColor">@color/white</item>

@@ -18,4 +18,15 @@
 
     //Main
     <string name="tv_product_inventory">INVENTARIO</string>
+
+    //dialog add inventory
+    <string name="tv_title_new_inventory">Nuevo Inventario</string>
+    <string name="et_new_inventory">Ingrese nombre del inventario</string>
+    <string name="tv_select_currency">Selecciona Moneda:</string>
+    <string name="bt_create_inventory">CREAR</string>
+    <string-array name="currencies">
+        <item>MXN</item>
+        <item>USD</item>
+    </string-array>
+
 </resources>

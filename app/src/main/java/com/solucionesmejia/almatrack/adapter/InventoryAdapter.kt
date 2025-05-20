@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.solucionesmejia.almatrack.Inventory
 import com.solucionesmejia.almatrack.R
 
@@ -14,7 +16,7 @@ class InventoryAdapter(
     private var inventoryList: List<Inventory>,
     private val onEditClick: (Inventory) -> Unit,
     private val onDeleteClick: (Inventory) -> Unit,
-    private val onItemClick: (Inventory) -> Unit // <- ¡AQUÍ FALTABA LA COMA!
+    private val onItemClick: (Inventory) -> Unit
 ) : RecyclerView.Adapter<InventoryAdapter.InventoryViewHolder>() {
 
     private var originalList: List<Inventory> = ArrayList(inventoryList)
@@ -24,6 +26,7 @@ class InventoryAdapter(
         val name: TextView = itemView.findViewById(R.id.tvInventoryName)
         val currency: TextView = itemView.findViewById(R.id.tvInventoryCurrency)
         val options: ImageView = itemView.findViewById(R.id.ivOptions)
+        val productCounter: TextView = itemView.findViewById(R.id.tvProductCounter)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryViewHolder {
@@ -37,16 +40,31 @@ class InventoryAdapter(
         holder.name.text = inventory.name
         holder.currency.text = inventory.currency
 
+        // Mostrar contador de productos desde Firestore
+        val productCollectionRef = Firebase.firestore
+            .collection("inventories")
+            .document(inventory.id)
+            .collection("products")
+
+// Listener en tiempo real para contar productos
+        productCollectionRef.addSnapshotListener { snapshots, error ->
+            if (error != null || snapshots == null) {
+                holder.productCounter.text = "0 productos"
+                return@addSnapshotListener
+            }
+            val count = snapshots.size()
+            holder.productCounter.text = "$count productos"
+        }
+
         // Click sobre toda la tarjeta
         holder.itemView.setOnClickListener {
             onItemClick(inventory)
         }
 
+        // Opciones del menú
         holder.options.setOnClickListener {
             val popup = PopupMenu(holder.itemView.context, it)
             popup.inflate(R.menu.menu_inventory_item)
-
-            // Forzar mostrar iconos en el PopupMenu
             try {
                 val fields = popup.javaClass.declaredFields
                 for (field in fields) {
@@ -55,8 +73,7 @@ class InventoryAdapter(
                         val menuPopupHelper = field.get(popup)
                         val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
                         val setForceIcons = classPopupHelper.getMethod(
-                            "setForceShowIcon",
-                            Boolean::class.javaPrimitiveType
+                            "setForceShowIcon", Boolean::class.javaPrimitiveType
                         )
                         setForceIcons.invoke(menuPopupHelper, true)
                         break

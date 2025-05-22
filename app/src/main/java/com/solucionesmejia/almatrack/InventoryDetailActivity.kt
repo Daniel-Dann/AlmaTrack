@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,7 +14,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import com.solucionesmejia.almatrack.adapter.ProductAdapter
 
 class InventoryDetailActivity : AppCompatActivity() {
@@ -27,50 +26,65 @@ class InventoryDetailActivity : AppCompatActivity() {
     private val productList = mutableListOf<Product>()
     private lateinit var productAdapter: ProductAdapter
     private lateinit var rvProducts: RecyclerView
-    private lateinit var etSearch: EditText  // NUEVO
+    private lateinit var etSearch: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inventory_detail)
 
-        // Configurar Toolbar
+        // Toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbarDetail1)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Obtener datos del inventario
+        // Inventario
         inventoryId = intent.getStringExtra("inventory_id") ?: ""
         inventoryName = intent.getStringExtra("inventory_name") ?: "Inventario"
         inventoryCurrency = intent.getStringExtra("inventory_currency") ?: "MXN"
         supportActionBar?.title = inventoryName
 
-        // Referencias UI
-        etSearch = findViewById(R.id.etSearchProduct)  // NUEVO
+        // RecyclerView y buscador
+        etSearch = findViewById(R.id.etSearchProduct)
         rvProducts = findViewById(R.id.rvProducts)
         rvProducts.layoutManager = LinearLayoutManager(this)
-        productAdapter = ProductAdapter(emptyList())
+        productAdapter = ProductAdapter(emptyList(),
+            onEditClick = { product ->
+                //Funcion editar
+                showEditProductDialog(product)
+            },
+            onDeleteClick = { product ->
+                // Aquí puedes eliminar el producto desde Firestore
+                firestore.collection("inventories")
+                    .document(inventoryId)
+                    .collection("products")
+                    .whereEqualTo("name", product.name)
+                    .get()
+                    .addOnSuccessListener { snapshot ->
+                        for (doc in snapshot) {
+                            doc.reference.delete()
+                        }
+                        Toast.makeText(this, "Producto eliminado", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        )
+
         rvProducts.adapter = productAdapter
 
-        // Buscar productos al escribir
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString().lowercase().trim()
-                val filteredList = productList.filter {
-                    it.name.lowercase().contains(query) || it.description.lowercase().contains(query)
-                }
-                productAdapter.updateList(filteredList, query)
+                val filtered = getFilteredList(query).sortedBy { it.name.lowercase() }
+                productAdapter.updateList(filtered, query)
             }
         })
 
-        // Botón para agregar producto
-        val fabAddProduct = findViewById<FloatingActionButton>(R.id.fabAddProduct)
-        fabAddProduct.setOnClickListener {
+        findViewById<FloatingActionButton>(R.id.fabAddProduct).setOnClickListener {
             showAddProductDialog()
         }
 
-        // Escuchar productos en tiempo real
+        // Escuchar cambios
         firestore.collection("inventories")
             .document(inventoryId)
             .collection("products")
@@ -81,19 +95,127 @@ class InventoryDetailActivity : AppCompatActivity() {
                 }
 
                 productList.clear()
-                for (document in snapshots) {
-                    val product = document.toObject(Product::class.java)
-                    product.currency = inventoryCurrency // Asegura que tenga la moneda
+                for (doc in snapshots) {
+                    val product = doc.toObject(Product::class.java)
+                    product.currency = inventoryCurrency
                     productList.add(product)
                 }
 
-                // Actualizar lista completa (puede estar filtrada si el usuario está buscando)
                 val query = etSearch.text.toString().lowercase().trim()
-                val filtered = if (query.isEmpty()) productList else productList.filter {
-                    it.name.lowercase().contains(query) || it.description.lowercase().contains(query)
-                }
+                val filtered = getFilteredList(query).sortedBy { it.name.lowercase() }
                 productAdapter.updateList(filtered, query)
             }
+    }
+
+    private fun getFilteredList(query: String): List<Product> {
+        return if (query.isEmpty()) {
+            productList
+        } else {
+            productList.filter {
+                it.name.lowercase().contains(query) || it.description.lowercase().contains(query)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_inventory_detail, menu)
+        return true
+    }
+
+    private fun showEditProductDialog(product: Product) {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
+
+        val etName = dialogView.findViewById<TextInputEditText>(R.id.etProductName)
+        val etDescription = dialogView.findViewById<TextInputEditText>(R.id.etProductDescription)
+        val etPrice = dialogView.findViewById<TextInputEditText>(R.id.etProductPrice)
+        val etSalePrice = dialogView.findViewById<TextInputEditText>(R.id.etProductSalePrice)
+        val etStock = dialogView.findViewById<TextInputEditText>(R.id.etProductStock)
+        val btnCreate = dialogView.findViewById<Button>(R.id.btnCreateProduct)
+
+        // Rellenar campos existentes
+        etName.setText(product.name)
+        etDescription.setText(product.description)
+        etPrice.setText(product.price.toString())
+        etSalePrice.setText(product.salePrice.toString())
+        etStock.setText(product.stock.toString())
+        etStock.isEnabled = false // No editable
+
+        btnCreate.text = "Actualizar"
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        btnCreate.setOnClickListener {
+            val name = etName.text.toString().trim()
+            val rawDescription = etDescription.text.toString().trim()
+            val description = if (rawDescription.isEmpty()) "Sin descripción" else rawDescription
+            val price = etPrice.text.toString().trim().toDoubleOrNull()
+            val salePrice = etSalePrice.text.toString().trim().toDoubleOrNull()
+
+            if (name.isEmpty() || price == null || salePrice == null) {
+                Snackbar.make(dialogView, "Por favor completa todos los campos", Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val updatedProduct = hashMapOf(
+                "name" to name,
+                "description" to description,
+                "price" to price,
+                "salePrice" to salePrice
+            )
+
+            // Buscar documento y actualizar
+            firestore.collection("inventories")
+                .document(inventoryId)
+                .collection("products")
+                .whereEqualTo("name", product.name)
+                .limit(1)
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    if (!snapshot.isEmpty) {
+                        snapshot.documents[0].reference.update(updatedProduct as Map<String, Any>)
+                        Snackbar.make(findViewById(android.R.id.content), "✅ Producto actualizado", Snackbar.LENGTH_LONG)
+                            .setAnchorView(findViewById(R.id.fabAddProduct))
+                            .show()
+                    }
+                    dialog.dismiss()
+                }
+                .addOnFailureListener {
+                    Snackbar.make(findViewById(android.R.id.content), "❌ Error al actualizar", Snackbar.LENGTH_LONG).show()
+                }
+        }
+
+        dialog.show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val query = etSearch.text.toString().lowercase().trim()
+        val filtered = getFilteredList(query)
+
+        when (item.itemId) {
+            R.id.sort_name -> {
+                val sorted = filtered.sortedBy { it.name.lowercase() }
+                productAdapter.updateList(sorted, query)
+                return true
+            }
+            R.id.sort_price_costo -> {
+                val sorted = filtered.sortedBy { it.price }
+                productAdapter.updateList(sorted, query)
+                return true
+            }
+            R.id.sort_price -> {
+                val sorted = filtered.sortedBy { it.salePrice }
+                productAdapter.updateList(sorted, query)
+                return true
+            }
+            R.id.sort_stock -> {
+                val sorted = filtered.sortedByDescending { it.stock }
+                productAdapter.updateList(sorted, query)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showAddProductDialog() {
@@ -101,6 +223,7 @@ class InventoryDetailActivity : AppCompatActivity() {
         val etName = dialogView.findViewById<TextInputEditText>(R.id.etProductName)
         val etDescription = dialogView.findViewById<TextInputEditText>(R.id.etProductDescription)
         val etPrice = dialogView.findViewById<TextInputEditText>(R.id.etProductPrice)
+        val etSalePrice = dialogView.findViewById<TextInputEditText>(R.id.etProductSalePrice)
         val etStock = dialogView.findViewById<TextInputEditText>(R.id.etProductStock)
         val btnCreate = dialogView.findViewById<Button>(R.id.btnCreateProduct)
 
@@ -113,9 +236,10 @@ class InventoryDetailActivity : AppCompatActivity() {
             val rawDescription = etDescription.text.toString().trim()
             val description = if (rawDescription.isEmpty()) "Sin descripción" else rawDescription
             val price = etPrice.text.toString().trim().toDoubleOrNull()
+            val salePrice = etSalePrice.text.toString().trim().toDoubleOrNull()
             val stock = etStock.text.toString().trim().toIntOrNull()
 
-            if (name.isEmpty() || price == null || stock == null) {
+            if (name.isEmpty() || price == null || salePrice == null || stock == null) {
                 Snackbar.make(dialogView, "Por favor completa todos los campos", Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -124,6 +248,7 @@ class InventoryDetailActivity : AppCompatActivity() {
                 name = name,
                 description = description,
                 price = price,
+                salePrice = salePrice,
                 stock = stock
             )
 
@@ -150,4 +275,9 @@ class InventoryDetailActivity : AppCompatActivity() {
         onBackPressedDispatcher.onBackPressed()
         return true
     }
+
 }
+
+
+
+

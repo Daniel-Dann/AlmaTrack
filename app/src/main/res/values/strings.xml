@@ -31,8 +31,9 @@
 
     //dialog add product
     <string name="tv_title_new_product">Nuevo Producto</string>
-    <string name="et_new_product">Ingrese nombre del producto</string>
-    <string name="et_product_description">Ingrese descripción del producto</string>
-    <string name="et_product_price">Ingrese precio del producto</string>
-    <string name="et_product_stock">Ingrese stock inicial</string>
+    <string name="et_new_product">Nombre del producto</string>
+    <string name="et_product_description">Descripción del producto</string>
+    <string name="et_product_price">Precio costo del producto</string>
+    <string name="et_product_sale_price">Precio venta del producto</string>
+    <string name="et_product_stock">Cantidad de stock inicial</string>
 </resources>

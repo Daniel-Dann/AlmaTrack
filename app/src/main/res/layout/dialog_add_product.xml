@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="347dp"
-        android:layout_height="405dp"
+        android:layout_height="450dp"
         app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +60,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.100000024" />
+                    app:layout_constraintVertical_bias="0.050000012" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etProductDescription"
@@ -72,13 +73,12 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textSize="17sp"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etProductName"
-                    app:layout_constraintVertical_bias="0.100000024" />
+                    app:layout_constraintVertical_bias="0.050000012" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etProductPrice"
@@ -96,7 +96,26 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etProductDescription"
-                    app:layout_constraintVertical_bias="0.100000024" />
+                    app:layout_constraintVertical_bias="0.050000012" />
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etProductSalePrice"
+                    android:layout_width="302dp"
+                    android:layout_height="48dp"
+                    android:autofillHints="emailAddress"
+                    android:drawableStart="@drawable/vector_money"
+                    android:drawablePadding="8dp"
+                    android:hint="@string/et_product_sale_price"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etProductPrice"
+                    app:layout_constraintVertical_bias="0.050000012" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etProductStock"
@@ -113,8 +132,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etProductPrice"
-                    app:layout_constraintVertical_bias="0.100000024" />
+
+                    app:layout_constraintTop_toBottomOf="@+id/etProductSalePrice"
+                    app:layout_constraintVertical_bias="0.050000012" />
 
                 <Button
                     android:id="@+id/btnCreateProduct"

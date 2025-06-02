@@ -1,5 +1,6 @@
 package com.solucionesmejia.almatrack.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.solucionesmejia.almatrack.Inventory
 import com.solucionesmejia.almatrack.R
+import com.solucionesmejia.almatrack.ReportActivity
 
 class InventoryAdapter(
     private var inventoryList: List<Inventory>,
@@ -91,6 +93,14 @@ class InventoryAdapter(
                     }
                     R.id.action_delete -> {
                         onDeleteClick(inventory)
+                        true
+                    }
+                    R.id.action_reports -> {
+                        val context = holder.itemView.context
+                        val intent = Intent(context, ReportActivity::class.java)
+                        intent.putExtra("inventoryId", inventory.id)       // Ajusta si el modelo se llama diferente
+                        intent.putExtra("inventoryName", inventory.name)
+                        context.startActivity(intent)
                         true
                     }
                     else -> false

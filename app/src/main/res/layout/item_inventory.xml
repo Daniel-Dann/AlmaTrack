@@ -1,134 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:elevation="30dp"
-    app:cardCornerRadius="12dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="13dp">
+        android:layout_height="wrap_content"
+        android:padding="12dp">
 
+        <!-- Imagen del inventario -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivInventoryIcon"
-            android:layout_width="98dp"
-            android:layout_height="90dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/inventory"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/inventory" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-        <TextView
-            android:id="@+id/tvInventory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Inventario: "
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <!-- Botón de opciones -->
+        <ImageView
+            android:id="@+id/ivOptions"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="4dp"
+            android:src="@drawable/vector_more"
+            android:contentDescription="Opciones"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@+id/ivInventoryIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.00999999" />
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Nombre del inventario -->
         <TextView
             android:id="@+id/tvInventoryName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="none"
-            android:text="Nombre"
+            android:text="Nombre del inventario"
             android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toTopOf="@+id/tvTotalProduct"
-            app:layout_constraintEnd_toStartOf="@+id/ivOptions"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@+id/tvInventory"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/ivInventoryIcon"
+            app:layout_constraintEnd_toStartOf="@id/ivOptions"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.02" />
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Cantidad de productos -->
+        <TextView
+            android:id="@+id/tvTotalProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cantidad:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/ivInventoryIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvInventoryName"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvProductCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/tvTotalProduct"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvTotalProduct"
+            android:layout_marginStart="4dp" />
+
+        <!-- Moneda -->
+        <TextView
+            android:id="@+id/tvCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moneda:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/ivInventoryIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvTotalProduct"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/tvInventoryCurrency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MXN"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvCurrency"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <TextView
-            android:id="@+id/tvTotalProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Cantidad: "
+            android:textSize="16sp"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@+id/ivInventoryIcon"
-            app:layout_constraintTop_toBottomOf="@+id/tvInventory"
-            app:layout_constraintVertical_bias="0.25" />
-
-        <TextView
-            android:id="@+id/tvProductCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvTotalProduct"
-            app:layout_constraintTop_toTopOf="@+id/tvTotalProduct" />
-
-        <TextView
-            android:id="@+id/tvCurrency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Moneda: "
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@+id/ivInventoryIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <ImageView
-            android:id="@+id/ivOptions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/vector_more"
-            android:contentDescription="Opciones"
-            android:layout_gravity="end"
-            android:padding="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
+            app:layout_constraintStart_toEndOf="@id/tvCurrency"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvCurrency"
+            android:layout_marginStart="4dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>

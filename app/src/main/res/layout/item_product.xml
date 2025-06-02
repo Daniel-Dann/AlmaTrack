@@ -5,49 +5,50 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="4dp">
+    app:cardElevation="6dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-
+        <!-- Botón de opciones -->
         <ImageView
             android:id="@+id/ivOptionsProduct"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="4dp"
             android:contentDescription="Opciones"
-            android:src="@drawable/vector_more"/>
+            android:padding="4dp"
+            android:src="@drawable/vector_more" />
 
-
+        <!-- Contenedor principal -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/ivOptionsProduct"
+            android:layout_alignParentStart="true"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-
-            <ImageView
+            <!-- Imagen -->
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgProduct"
-                android:layout_width="100dp"
-                android:layout_height="109dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginEnd="12dp"
                 android:contentDescription="Imagen del producto"
-                android:padding="4dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/inventory_product" />
 
-
+            <!-- Detalles -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_marginStart="12dp">
+                android:paddingEnd="8dp">
 
                 <TextView
                     android:id="@+id/tvProductName"
@@ -64,22 +65,23 @@
                     android:layout_height="wrap_content"
                     android:text="Descripción breve"
                     android:textSize="14sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:layout_marginTop="2dp" />
 
                 <!-- Precio costo -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                    android:id="@+id/tvLabelPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Precio costo"
-                    android:textSize="14sp"
-                    android:textColor="@color/black" />
+                        android:id="@+id/tvLabelPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precio costo:"
+                        android:textSize="14sp"
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:id="@+id/tvProductPrice"
@@ -95,14 +97,14 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tvSalePrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Precio venta"
+                        android:text="Precio venta:"
                         android:textSize="14sp"
                         android:textColor="@color/black" />
 
@@ -123,8 +125,10 @@
                     android:layout_height="wrap_content"
                     android:text="Stock: 0"
                     android:textSize="14sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:layout_marginTop="2dp"/>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
+

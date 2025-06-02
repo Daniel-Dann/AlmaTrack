@@ -52,20 +52,9 @@ class InventoryDetailActivity : AppCompatActivity() {
                 //Funcion editar
                 showEditProductDialog(product)
             },
-            onDeleteClick = { product ->
+            onDeleteClick = { product -> confirmDeleteInventory(product)}
                 // Aquí puedes eliminar el producto desde Firestore
-                firestore.collection("inventories")
-                    .document(inventoryId)
-                    .collection("products")
-                    .whereEqualTo("name", product.name)
-                    .get()
-                    .addOnSuccessListener { snapshot ->
-                        for (doc in snapshot) {
-                            doc.reference.delete()
-                        }
-                        Toast.makeText(this, "Producto eliminado", Toast.LENGTH_SHORT).show()
-                    }
-            }
+
         )
 
         rvProducts.adapter = productAdapter
@@ -97,6 +86,7 @@ class InventoryDetailActivity : AppCompatActivity() {
                 productList.clear()
                 for (doc in snapshots) {
                     val product = doc.toObject(Product::class.java)
+                    product.id = doc.id // Esta es la línea clave que debes agregar
                     product.currency = inventoryCurrency
                     productList.add(product)
                 }
@@ -175,14 +165,14 @@ class InventoryDetailActivity : AppCompatActivity() {
                 .addOnSuccessListener { snapshot ->
                     if (!snapshot.isEmpty) {
                         snapshot.documents[0].reference.update(updatedProduct as Map<String, Any>)
-                        Snackbar.make(findViewById(android.R.id.content), "✅ Producto actualizado", Snackbar.LENGTH_LONG)
+                        Snackbar.make(findViewById(android.R.id.content), "✅   Producto \"$name\" actualizado", Snackbar.LENGTH_LONG)
                             .setAnchorView(findViewById(R.id.fabAddProduct))
                             .show()
                     }
                     dialog.dismiss()
                 }
                 .addOnFailureListener {
-                    Snackbar.make(findViewById(android.R.id.content), "❌ Error al actualizar", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(findViewById(android.R.id.content), "❌   Error al actualizar el producto \"$name\"", Snackbar.LENGTH_LONG).show()
                 }
         }
 
@@ -240,7 +230,10 @@ class InventoryDetailActivity : AppCompatActivity() {
             val stock = etStock.text.toString().trim().toIntOrNull()
 
             if (name.isEmpty() || price == null || salePrice == null || stock == null) {
-                Snackbar.make(dialogView, "Por favor completa todos los campos", Snackbar.LENGTH_SHORT).show()
+                etName.error = "Nombre requerido"
+                etPrice.error = "Precio costo requerido"
+                etSalePrice.error = "Precio venta requerido"
+                etStock.error = "Cantidad de Stock requerido"
                 return@setOnClickListener
             }
 
@@ -258,17 +251,48 @@ class InventoryDetailActivity : AppCompatActivity() {
                 .add(newProduct)
                 .addOnSuccessListener {
                     dialog.dismiss()
-                    Snackbar.make(findViewById(android.R.id.content), "✅ Producto \"$name\" agregado correctamente", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(android.R.id.content), "✅   Producto \"$name\" agregado correctamente", Snackbar.LENGTH_LONG)
                         .setAnchorView(findViewById(R.id.fabAddProduct))
                         .show()
                 }
                 .addOnFailureListener {
-                    Snackbar.make(findViewById(android.R.id.content), "❌ Error al agregar producto", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(android.R.id.content), "❌   Error al agregar el producto \"$name\"", Snackbar.LENGTH_LONG)
                         .show()
                 }
         }
 
         dialog.show()
+    }
+
+    private fun confirmDeleteInventory(product: Product) {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Eliminar producto")
+            .setMessage("¿Seguro que deseas eliminar el producto \"${product.name}\"?")
+            .setPositiveButton("Eliminar") { dialog, _ ->
+                // Corrección: Usar la ruta correcta del documento
+                firestore.collection("inventories")
+                    .document(inventoryId)
+                    .collection("products")
+                    .document(product.id) // Asegúrate que product.id esté correctamente asignado
+                    .delete()
+                    .addOnSuccessListener {
+                        // Eliminar también de la lista local
+                        productList.removeAll { it.id == product.id }
+                        // Actualizar el adaptador
+                        val query = etSearch.text.toString().lowercase().trim()
+                        val filtered = getFilteredList(query).sortedBy { it.name.lowercase() }
+                        productAdapter.updateList(filtered, query)
+
+                        Snackbar.make(findViewById(android.R.id.content), "✅   Producto \"${product.name}\" eliminado", Snackbar.LENGTH_SHORT).show()
+
+                    }
+                    .addOnFailureListener {
+                        Snackbar.make(findViewById(android.R.id.content), "❌   Error al eliminar: ${it.message}", Snackbar.LENGTH_SHORT).show()
+                    }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

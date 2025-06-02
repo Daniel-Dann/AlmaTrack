@@ -19,6 +19,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -107,11 +108,11 @@ class MainActivity : AppCompatActivity() {
             firestore.collection("inventories").document(id)
                 .set(inventory)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Inventario guardado", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(findViewById(android.R.id.content), "✅   Inventario \"$name\" guardado", Snackbar.LENGTH_LONG).show()
                     dialog.dismiss()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(findViewById(android.R.id.content), "❌   Error al guardar el invetario \"$name\"", Snackbar.LENGTH_LONG).show()
                 }
         }
 
@@ -175,11 +176,11 @@ class MainActivity : AppCompatActivity() {
             firestore.collection("inventories").document(inventory.id)
                 .set(updatedInventory)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Inventario actualizado", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(findViewById(android.R.id.content), "✅   Inventario \"${inventory.name}\" actualizado", Snackbar.LENGTH_LONG).show()
                     dialog.dismiss()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(findViewById(android.R.id.content), "❌ Error al actualizar el imventario \"${inventory.name}\"", Snackbar.LENGTH_LONG).show()
                 }
         }
 
@@ -194,10 +195,10 @@ class MainActivity : AppCompatActivity() {
                 firestore.collection("inventories").document(inventory.id)
                     .delete()
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Inventario eliminado", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(findViewById(android.R.id.content), "✅   Inventario \"${inventory.name}\" eliminado", Snackbar.LENGTH_LONG).show()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "Error al eliminar", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(findViewById(android.R.id.content), "❌   Error al eliminar el inventario \"${inventory.name}\"", Snackbar.LENGTH_LONG).show()
                     }
                 dialog.dismiss()
             }

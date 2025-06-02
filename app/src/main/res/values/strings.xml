@@ -17,11 +17,11 @@
     <string name="bt_send_code_email">ENVIAR CODIGO</string>
 
     //Main
-    <string name="tv_product_inventory">INVENTARIO</string>
+    <string name="tv_product_inventory">INVENTARIOS</string>
 
     //dialog add inventory
-    <string name="tv_title_new_inventory">Nuevo Inventario</string>
-    <string name="et_new_inventory">Ingrese nombre del inventario</string>
+    <string name="tv_title_new_inventory">NUEVO INVENTARIO</string>
+    <string name="et_new_inventory">*Nombre del inventario</string>
     <string name="tv_select_currency">Selecciona Moneda:</string>
     <string name="bt_create_inventory">CREAR</string>
     <string-array name="currencies">
@@ -31,9 +31,9 @@
 
     //dialog add product
     <string name="tv_title_new_product">Nuevo Producto</string>
-    <string name="et_new_product">Nombre del producto</string>
+    <string name="et_new_product">*Nombre del producto</string>
     <string name="et_product_description">Descripción del producto</string>
-    <string name="et_product_price">Precio costo del producto</string>
-    <string name="et_product_sale_price">Precio venta del producto</string>
-    <string name="et_product_stock">Cantidad de stock inicial</string>
+    <string name="et_product_price">*Precio costo del producto</string>
+    <string name="et_product_sale_price">*Precio venta del producto</string>
+    <string name="et_product_stock">*Cantidad de stock inicial</string>
 </resources>

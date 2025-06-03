@@ -52,6 +52,7 @@
                 android:id="@+id/tvTitleInvestedValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/tv_title_invested_value"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

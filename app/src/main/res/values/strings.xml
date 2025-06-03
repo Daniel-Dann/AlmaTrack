@@ -39,5 +39,5 @@
     
     
     //activity_report
-    <string name="tv_title_invested_value">Valor Total del Inventario</string>
+    <string name="tv_title_invested_value">Detalles de Inversión de Inventario</string>
 </resources>

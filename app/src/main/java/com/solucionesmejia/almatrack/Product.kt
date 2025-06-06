@@ -9,4 +9,5 @@ data class Product(
     var salePrice: Double = 0.0,
     var currency: String = "MXN" // "MXN" o "USD"
 
+
 )

@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.solucionesmejia.almatrack"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -58,6 +58,10 @@ android {
         implementation("com.google.firebase:firebase-firestore-ktx")
         implementation("com.google.firebase:firebase-analytics-ktx")
         implementation("com.google.firebase:firebase-database-ktx")
+
+        //Docuemnto Excel
+        implementation ("org.apache.poi:poi:5.2.3")
+        implementation ("org.apache.poi:poi-ooxml:5.2.3")
 
 
 

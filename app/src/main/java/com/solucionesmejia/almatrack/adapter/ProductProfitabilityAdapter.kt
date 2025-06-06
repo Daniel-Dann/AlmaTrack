@@ -1,10 +1,12 @@
 package com.solucionesmejia.almatrack.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.solucionesmejia.almatrack.Product
@@ -33,6 +35,7 @@ class ProductProfitabilityAdapter(
         val tvVenta: TextView = itemView.findViewById(R.id.tvVenta)
         val tvMargin: TextView = itemView.findViewById(R.id.tvMargin)
         val tvUnitEarnings: TextView = itemView.findViewById(R.id.tvUnitEarnings)
+        val ivArrow: ImageView = itemView.findViewById(R.id.ivArrow)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -49,10 +52,10 @@ class ProductProfitabilityAdapter(
         holder.tvStock.text = "${product.stock} unidades"
 
         val locale = Locale("es", "MX")
-        val formattedCost = String.format(locale, "%,.2f", product.price) + " ${product.currency}"
-        val formattedSale = String.format(locale, "%,.2f", product.salePrice) + " ${product.currency}"
+        val formattedCost = String.format(locale, "%,.2f", product.price)
+        val formattedSale = String.format(locale, "%,.2f", product.salePrice)
         val unitProfit = product.salePrice - product.price
-        val formattedUnitProfit = String.format(locale, "%,.2f", unitProfit) + " ${product.currency}"
+        val formattedUnitProfit = String.format(locale, "%,.2f", unitProfit)
 
         val margin = if (product.salePrice > 0) {
             ((product.salePrice - product.price) / product.salePrice) * 100
@@ -60,10 +63,25 @@ class ProductProfitabilityAdapter(
 
         val formattedMargin = String.format(Locale.getDefault(), "%.2f%%", margin)
 
-        holder.tvCost.text = ("$$formattedCost")
-        holder.tvVenta.text = ("$$formattedSale")
+        holder.tvCost.text = "$$formattedCost $currency"
+        holder.tvVenta.text = "$$formattedSale $currency"
         holder.tvMargin.text = formattedMargin
         holder.tvUnitEarnings.text = "($$formattedUnitProfit por unidad)"
+
+        // Color para margen y utilidad
+        val isPositive = margin >= 0
+        val color = if (isPositive) Color.parseColor("#388E3C") else Color.parseColor("#D32F2F")
+        holder.tvMargin.setTextColor(color)
+        holder.tvUnitEarnings.setTextColor(color)
+
+        // Flecha (↑ verde si margen positivo, ↓ roja si negativo)
+        if (isPositive) {
+            holder.ivArrow.setImageResource(R.drawable.vector_arrowup)
+            holder.ivArrow.setColorFilter(Color.parseColor("#388E3C"))
+        } else {
+            holder.ivArrow.setImageResource(R.drawable.vector_arrowdown)
+            holder.ivArrow.setColorFilter(Color.parseColor("#D32F2F"))
+        }
     }
 
     override fun getFilter(): Filter {
@@ -90,7 +108,13 @@ class ProductProfitabilityAdapter(
             }
         }
     }
+
+
+
+
 }
+
+
 
 
 

@@ -1,84 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ReportProductProfitabilityActivity">
 
-    <!-- Toolbar personalizado -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarProductProfitability"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleTextColor="@android:color/black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <!-- Buscador moderno -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/searchLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:hint="Buscar producto"
-        app:layout_constraintTop_toBottomOf="@id/toolbarProductProfitability"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etSearchProductsProfits"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/vector_search"
-            android:inputType="text"
-            android:imeOptions="actionSearch" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content">
 
-    <!-- Mensaje "Sin resultados" con ícono -->
-    <LinearLayout
-        android:id="@+id/layoutNoResults"
-        android:layout_width="wrap_content"
+            <!-- Toolbar personalizado -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarProductProfitability"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:titleTextColor="@android:color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Buscador moderno -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/searchLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:hint="Buscar producto"
+                app:layout_constraintTop_toBottomOf="@id/toolbarProductProfitability"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSearchProductsProfits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/vector_search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Mensaje "Sin resultados" con ícono -->
+            <LinearLayout
+                android:id="@+id/layoutNoResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/searchLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivNoResults"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:src="@drawable/valorinventario" />
+
+                <TextView
+                    android:id="@+id/tvNoResults"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Sin resultados"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <!-- RecyclerView de productos -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewProducts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/searchLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Botón ancho en la parte inferior -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExportPdf"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="24dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/searchLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawableStart="@drawable/vector_pdf"
+        android:drawablePadding="8dp"
+        android:drawableTint="@android:color/white"
+        android:text="Exportar a PDF"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/red"
+        app:iconGravity="textStart"
+        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchorGravity="bottom"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 
-        <ImageView
-            android:id="@+id/ivNoResults"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:src="@drawable/valorinventario"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <TextView
-            android:id="@+id/tvNoResults"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sin resultados"
-            android:textSize="18sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginTop="8dp" />
-    </LinearLayout>
-
-    <!-- RecyclerView de productos -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProducts"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/searchLayout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

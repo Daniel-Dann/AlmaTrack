@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.solucionesmejia.almatrack.adapters.ProductProfitabilityAdapter
+import androidx.core.widget.NestedScrollView
+import androidx.core.widget.NestedScrollView.OnScrollChangeListener
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ReportProductProfitabilityActivity : AppCompatActivity() {
 
@@ -25,10 +29,15 @@ class ReportProductProfitabilityActivity : AppCompatActivity() {
     private var allProducts: List<Product> = listOf()
     private var inventoryId: String = ""
     private var inventoryName: String = ""
+    private lateinit var fabExportPdf: FloatingActionButton
+    private var isFabVisible = true
+    private lateinit var btnExportPdf: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_product_profitability)
+
+        btnExportPdf = findViewById(R.id.btnExportPdf)
 
         inventoryId = intent.getStringExtra("inventoryId") ?: ""
         inventoryName = intent.getStringExtra("inventoryName") ?: ""
@@ -47,8 +56,28 @@ class ReportProductProfitabilityActivity : AppCompatActivity() {
         layoutNoResults = findViewById(R.id.layoutNoResults)
         layoutNoResults.visibility = View.GONE
 
+
         loadProducts()
         setupSearch()
+        setupScrollBehavior()
+    }
+
+    private fun setupScrollBehavior() {
+        val scrollView = findViewById<NestedScrollView>(R.id.nestedScrollView) // Necesitarás agregar este ID a tu layout
+
+        scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            when {
+                // Scroll hacia abajo
+                // Scroll hacia abajo
+                scrollY > oldScrollY + 5 -> {
+                    btnExportPdf.animate().translationY(btnExportPdf.height.toFloat()).setDuration(300).start()
+                }
+                // Scroll hacia arriba
+                scrollY < oldScrollY - 5 -> {
+                    btnExportPdf.animate().translationY(0f).setDuration(300).start()
+                }
+            }
+        })
     }
 
     private fun loadProducts() {

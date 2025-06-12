@@ -109,8 +109,9 @@ class ProductProfitabilityAdapter(
         }
     }
 
-
-
+    fun getFilteredList(): List<Product> {
+        return filteredList
+    }
 
 }
 

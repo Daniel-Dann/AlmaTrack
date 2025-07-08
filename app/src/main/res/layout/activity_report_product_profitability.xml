@@ -93,24 +93,50 @@
     </androidx.core.widget.NestedScrollView>
 
     <!-- Botón ancho en la parte inferior -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnExportPdf"
+    <LinearLayout
+        android:id="@+id/layoutExportButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        android:drawableStart="@drawable/vector_pdf"
-        android:drawablePadding="8dp"
-        android:drawableTint="@android:color/white"
-        android:text="Exportar a PDF"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:backgroundTint="@color/red"
-        app:iconGravity="textStart"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:paddingBottom="8dp"
         app:layout_anchor="@id/nestedScrollView"
         app:layout_anchorGravity="bottom"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExportExcel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/vector_pdf"
+            android:drawablePadding="8dp"
+            android:drawableTint="@android:color/white"
+            android:text="Exportar a Excel"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/green"
+            app:iconGravity="textStart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExportPdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@drawable/vector_pdf"
+            android:drawablePadding="8dp"
+            android:drawableTint="@android:color/white"
+            android:text="Exportar a PDF"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/red"
+            app:iconGravity="textStart" />
+
+    </LinearLayout>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

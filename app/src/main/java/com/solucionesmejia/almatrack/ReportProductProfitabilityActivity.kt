@@ -56,9 +56,6 @@ import java.io.FileOutputStream
 import org.apache.poi.ss.usermodel.VerticalAlignment as PoiVerticalAlignment
 
 
-
-
-
 class ReportProductProfitabilityActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
@@ -295,7 +292,8 @@ class ReportProductProfitabilityActivity : AppCompatActivity() {
             }
 
             // 6. Ajustar anchos de columna (versión segura para Android)
-            val columnWidths = intArrayOf(12000, 4000, 5000, 5000, 5000, 5000) // Valores en unidades 1/256
+            val columnWidths =
+                intArrayOf(12000, 4000, 5000, 5000, 5000, 5000) // Valores en unidades 1/256
             headers.indices.forEach { i ->
                 sheet.setColumnWidth(i, columnWidths[i])
             }
@@ -334,12 +332,16 @@ class ReportProductProfitabilityActivity : AppCompatActivity() {
 
         builder.setPositiveButton("Ver") { _, _ ->
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            intent.setDataAndType(
+                uri,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
             intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
             try {
                 startActivity(intent)
             } catch (e: Exception) {
-                Toast.makeText(this, "No se encontró app para abrir Excel", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No se encontró app para abrir Excel", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 

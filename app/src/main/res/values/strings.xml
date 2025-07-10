@@ -39,5 +39,6 @@
 
 
     //activity_report
-    <string name="tv_title_invested_value">Rentabilidad de Productos del Inventario</string>
+    <string name="tv_title_invested_value">RENTABILIDAD DE PRODUCTOS</string>
+    <string name="tv_existence_product">Existencia de Productos Actuales</string>
 </resources>

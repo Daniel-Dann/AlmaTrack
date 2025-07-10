@@ -27,9 +27,19 @@ class ReportActivity : AppCompatActivity() {
         inventoryName = intent.getStringExtra("inventoryName") ?: "Inventario"
         supportActionBar?.title = "Reportes $inventoryName"
 
+        // CardView para rentabilidad
         val cardView: CardView = findViewById(R.id.crvTotalValueInvested)
         cardView.setOnClickListener {
             val intent = Intent(this, ReportProductProfitabilityActivity::class.java)
+            intent.putExtra("inventoryId", inventoryId)
+            intent.putExtra("inventoryName", inventoryName)
+            startActivity(intent)
+        }
+
+        // CardView para existencia de productos
+        val cardViewExistencia: CardView = findViewById(R.id.crvProductsExisting)
+        cardViewExistencia.setOnClickListener {
+            val intent = Intent(this, ReportProductsExistenceActivity::class.java)
             intent.putExtra("inventoryId", inventoryId)
             intent.putExtra("inventoryName", inventoryName)
             startActivity(intent)
